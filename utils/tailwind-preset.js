@@ -2,10 +2,12 @@ const plugin = require('tailwindcss/plugin');
 const pluginTypography = require('@tailwindcss/typography');
 const { COLOR_THEMES, FONT_THEMES } = require('../themes');
 
+// Configuração de variáveis do tema a partir das variáveis de ambiente
 const THEME = process.env.BLOG_THEME || 'default';
 const FONT_PRIMARY = process.env.BLOG_FONT_HEADINGS || 'sans-serif';
 const FONT_SECONDARY = process.env.BLOG_FONT_BODY || 'sans-serif';
 
+// Plugin para criar o estilo de hover nos elementos irmãos
 const hoveredSiblingPlugin = plugin(function ({ addVariant, e }) {
   addVariant('hovered-sibling', ({ container }) => {
     container.walkRules((rule) => {
@@ -14,20 +16,25 @@ const hoveredSiblingPlugin = plugin(function ({ addVariant, e }) {
   });
 });
 
+// Configuração de temas com base nas variáveis definidas
 const themesConfig = plugin(function ({ addComponents }) {
   const cssVars = {};
 
+  // Adicionando as cores do tema dinâmico como variáveis CSS
   Object.keys(COLOR_THEMES[THEME].colors).forEach((key) => {
     cssVars[`--color-${key}`] = `${COLOR_THEMES[THEME].colors[key]}`;
   });
 
+  // Definindo as fontes primária e secundária
   cssVars['--font-primary'] = FONT_THEMES[FONT_PRIMARY];
   cssVars['--font-secondary'] = FONT_THEMES[FONT_SECONDARY];
 
+  // Definindo o componente de tema compilado com as variáveis CSS
   const themeCompiled = {
     '.theme-compiled': cssVars,
   };
 
+  // Adicionando as variáveis CSS para o tema
   addComponents(themeCompiled);
 });
 
@@ -35,10 +42,11 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        // Gradiente cônico com base nas variáveis CSS
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
+        // Definindo as cores do tema usando as variáveis CSS
         primary: 'var(--color-primary)',
         'gradient-1': 'var(--color-gradient-1)',
         'gradient-2': 'var(--color-gradient-2)',
@@ -46,9 +54,11 @@ module.exports = {
         'gradient-4': 'var(--color-gradient-4)',
       },
       fonts: {
+        // Definindo as fontes do tema a partir das variáveis CSS
         primary: 'var(--font-primary)',
         secondary: 'var(--font-secondary)',
       },
+      // Configuração do tema específico para o "bejamas"
       theme: {
         bejamas: {
           colors: {
@@ -60,6 +70,7 @@ module.exports = {
           },
         },
       },
+      // Configuração do tema de tipografia para o modo escuro
       typography(theme) {
         return {
           dark: {
@@ -97,6 +108,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      // Definição de variantes adicionais para bordas e tipografia
       borderRadius: ['first', 'last'],
       borderWidth: ['last', 'hovered-sibling'],
       typography: ['dark'],
