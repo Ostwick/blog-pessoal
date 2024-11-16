@@ -1,4 +1,7 @@
-const sunIcon = (
+import { useEffect, useState } from 'react';
+
+// Componente para representar o ícone do Sol
+const SunIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="25"
@@ -28,7 +31,8 @@ const sunIcon = (
   </svg>
 );
 
-const moonIcon = (
+// Componente para representar o ícone da Lua
+const MoonIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="21"
@@ -47,36 +51,63 @@ const moonIcon = (
   </svg>
 );
 
+// Componente de alternância de tema
 const ThemeSwitcher = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detecta o tema salvo no localStorage
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // Função para alternar entre os temas
+  const toggleTheme = (theme) => {
+    if (theme === 'dark') {
+      setIsDarkMode(true);
+      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove('dark');
+    }
+  };
+
   return (
     <div className="flex mt-6 bg-white justify-center dark:bg-gray-900 rounded-3xl p-1">
       <button
         type="button"
         aria-label="Use Dark Mode"
-        onClick={() => {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('theme', 'dark');
-        }}
-        className="flex items-center h-full pr-2 dark:bg-primary rounded-3xl flex justify-center align-center p-2 w-24 h-10 transition"
+        onClick={() => toggleTheme('dark')}
+        className={`flex items-center h-full pr-2 dark:bg-primary rounded-3xl p-2 w-24 h-10 transition ${
+          isDarkMode ? 'bg-primary dark:bg-transparent' : ''
+        }`}
       >
-        {moonIcon}
+        <MoonIcon />
       </button>
 
       <button
         type="button"
         aria-label="Use Light Mode"
-        onClick={() => {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('theme', 'light');
-        }}
-        className="flex items-center h-full pr-2 bg-primary dark:bg-transparent rounded-3xl flex justify-center align-center p-2 w-24 h-10 transition"
+        onClick={() => toggleTheme('light')}
+        className={`flex items-center h-full pr-2 bg-primary dark:bg-transparent rounded-3xl p-2 w-24 h-10 transition ${
+          !isDarkMode ? 'bg-primary dark:bg-transparent' : ''
+        }`}
       >
-        {sunIcon}
+        <SunIcon />
       </button>
     </div>
   );
 };
 
+// Componente Footer
 export default function Footer({ copyrightText }) {
   return (
     <footer className="py-16 flex flex-col items-center">
