@@ -1,8 +1,18 @@
+/* Aplica as diretrizes base do Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
+/* Definindo as variáveis de tema dinamicamente no :root */
+:root {
+  --font-primary: var(--font-primary, sans-serif);  /* Fonte primária para cabeçalhos */
+  --font-secondary: var(--font-secondary, sans-serif); /* Fonte secundária para o corpo */
+  --color-primary: var(--color-primary, #000000);  /* Cor primária (exemplo) */
+  --color-background: var(--color-background, #ffffff); /* Cor de fundo */
+}
+
+/* Aplicando a fonte primária aos títulos */
 h1,
 h2,
 h3,
@@ -12,6 +22,51 @@ h6 {
   font-family: var(--font-primary);
 }
 
+/* Aplicando a fonte secundária ao corpo do texto */
 body {
   font-family: var(--font-secondary);
+  background-color: var(--color-background);  /* Exemplo de aplicação de cor de fundo */
+  color: var(--color-primary); /* Cor de texto primária */
 }
+
+/* Definições de tipografia base */
+h1 {
+  font-size: 2.25rem; /* Ajuste o tamanho conforme necessário */
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* Ajustando o corpo do texto */
+p {
+  font-size: 1rem;
+  line-height: 1.75; /* Linha mais alta para melhor legibilidade */
+}
+
+a {
+  color: var(--color-primary); /* Cor do link */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline; /* Sublinha links no hover */
+}
+
+/* Certifique-se de que as variáveis CSS definidas no Tailwind sejam refletidas aqui */
